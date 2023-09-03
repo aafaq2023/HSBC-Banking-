@@ -1,0 +1,40 @@
+class HSBC_Logo{
+
+    visit(){
+            cy.visit("https://www.hsbc.co.in/")}
+    log_url_check(){
+           cy.xpath("/html/body/div[1]/div/header/div[4]/div/div[2]/div/div/div/h1/img").should('be.visible').should('have.attr', 'src')
+           cy.title().should('eql',"HSBC India - Credit Cards, NRI Services, Saving and Deposit")
+           }
+    logon_validation(){
+            cy.xpath("//div[@class='header-dropdown primary-button']/descendant::a[contains(@class,'selected-item login-button only-one-link')]").click()
+            cy.xpath("//h2[@class='pull-left heading t28l']").contains("Log On")
+            cy.xpath("//button[@id='username_submit_btn']").should("be.visible")}
+    continue_button_validation(){
+           cy.xpath("//button[@id='username_submit_btn']").should("be.visible")
+            cy.get("#username_submit_btn").then(($button)=>{
+                 if(cy.get($button).should('not.be.enabled')){
+                 cy.log("button is disabled state")}
+                else{cy.log("button is enabaled state")}
+              })
+            cy.xpath("//input[@id='username']").should("be.visible").type("aafaqqureshi71@gmail.com")
+            cy.get("#username_submit_btn").then(($button)=>{
+               if(cy.get($button).should('be.enabled')){
+               cy.log("button is enabled state")}
+                })
+           }
+    rememberme_checkbox(){
+           cy.get("#rememberMe").then(($input)=>{
+               if(cy.get($input).should('not.be.checked')){
+               cy.log("checkbox is not checked condition") }
+               })
+           }
+    username_popup(){
+            cy.xpath("//span[@class='icon icon-circle-help-solid help-icon']").should("be.visible").click()
+            cy.xpath("//h3").should('have.text','Username')
+            cy.xpath("//input[@type='button']").should('be.enabled')
+           cy.get('#Close_dob_exception').as('closeBtn')
+           cy.get('@closeBtn').click({ force: true })  }
+    }
+    export default HSBC_Logo;
+    

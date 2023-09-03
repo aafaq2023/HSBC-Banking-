@@ -1,0 +1,83 @@
+class creditcard{
+    visit(site){
+    cy.visit("https://www.hsbc.co.in/");
+    }
+    banking(){
+    cy.xpath("/html/body/div[1]/div/header/div[4]/div/div[2]/div/div/nav/ul/li[1]/div[1]/span[2]").should('be.visible');
+    }
+    creditcard(){
+        cy.xpath("/html/body/div[1]/div/header/div[4]/div/div[2]/div/div/nav/ul/li[1]/div[2]/div/div[1]/div/div[1]/div/div[1]/a").click({force: true});
+        let EName="Credit cards"
+        cy.get("h1[class='A-TYP38L-RW-ALL text-container text ']").contains("Credit cards")
+       
+        cy.xpath("//a[@class='A-BTNP-RW-ALL']").should("be.visible");
+        cy.xpath("//img[@id='listing_main_image_3']").should("be.visible").and("have.attr","alt","HSBC Visa Cashback Credit Card");
+        
+       cy.xpath("//*[@id='listing_main_creditCardProductModule_1']/div[1]/div[2]/h2").contains("HSBC Cashback Credit Card")
+    }
+comparecards(){
+        cy.xpath("//*[@id='listing_main_button_1']").should("be.visible");
+        cy.xpath("//*[@id='listing_main_button_2']").should('be.visible');
+        cy.xpath("//*[@id='listing_main_button_3']").should("be.visible");
+        cy.xpath("//*[@id='listing_main_button_1']").click();
+        cy.xpath("//button[@class='close-button']").should("be.visible");
+        cy.get("#title-pp_tools_productComparator_4").contains("Select cards to compare");
+    }
+compare_Creditcard(){
+       cy.log("There is 4 credit cards present")
+        let n="//div[@class='tile-selector']"
+        for (let i = 0; i <=3; i++) {
+          cy.xpath(n).should("be.visible").then(n => {
+            if (n.text()) {return n.text();}
+        })
+        }
+}
+comparsion_button(){
+        cy.xpath("//div[@aria-labelledby='label-pp_tools_productComparator_6']").should('be.visible').click();
+        cy.xpath("//div[@aria-labelledby='label-pp_tools_productComparator_8']").should('be.visible').click();
+        cy.xpath("//button[@class='A-BTNP-RW-ALL']").click()
+    }
+validating_selected_Cards(){
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[1]").should("be.visible")
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[2]").should("be.visible")
+
+}
+validating_remove_cards_inComparing(){
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[1]/a").should('have.attr', 'data-event-name',"button:remove product|product category:credit-cards|product subcategory:|product id:").and("be.visible").contains("Remove card")
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[2]/a").should("be.visible").contains("Remove card")
+
+}
+Addcard(){
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[3]/a").click()
+    cy.xpath("//div[@aria-labelledby='label-pp_tools_productComparator_10']").click()
+    cy.xpath("//button[@class='A-BTNP-RW-ALL']").click()
+}
+validating_selected_Cards_new(){
+    let n="//h2[@class='A-TYPS4L-RW-DEV title title-loaded']"
+    cy.log("total 3 selected cards present")
+        for (let i = 0; i <=2; i++) {
+          cy.xpath(n).should("be.visible").then(n => {
+            if (n.text()) {
+              return n.text();}
+          });
+        }
+      }
+validating_remove_Cards_new(){
+        let v="//a[@class='A-TYPS7R-RW-DEV link-icon clear-icon']"
+        cy.log("total 3 remove cards present")
+            for (let i = 0; i <=2; i++) {
+              cy.xpath(v).should("be.visible").then(v => {
+                if (v.text()) {
+                  return v.text(); }
+            });
+        }
+}
+remove_card(){
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[1]/a/span[1]").dblclick()
+}
+Again_add_card(){
+    cy.xpath("//*[@id='pp_tools_productComparator_1']/div[2]/div/div[2]/div[3]/a").click()
+    cy.xpath("//button[@class='close-button']").click()
+}
+}
+export default creditcard;
